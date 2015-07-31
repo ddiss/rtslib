@@ -999,11 +999,12 @@ class TPG(CFSNode):
         '''
         self._check_self()
         path = "%s/enable" % self.path
-        if os.path.isfile(path) and (boolean != self._get_enable()):
-            try:
-                fwrite(path, str(int(boolean)))
-            except IOError, e:
-                raise RTSLibError("Cannot change enable state: %s" % e)
+        if os.path.isfile(path):
+            if (boolean != self._get_enable()):
+                try:
+                    fwrite(path, str(int(boolean)))
+                except IOError, e:
+                    raise RTSLibError("Cannot change enable state: %s" % e)
         elif not boolean:
             raise RTSLibError("TPG cannot be disabled.")
 
